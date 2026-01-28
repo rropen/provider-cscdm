@@ -1,0 +1,76 @@
+name: Release Please
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release-please:
+    name: Release Please
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Release Please
+        id: release
+        uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4.4.0
+        with:
+          token: ${{ secrets.ROLLSROYCEBOT_PAT }}
+
+      - name: Retrieve release branch name
+        id: release_branch
+        if: steps.release.outputs.prs_created == 'true'
+        env:
+          PR_JSON: ${{ steps.release.outputs.pr }}
+        run: |
+          BRANCH=$(echo "$PR_JSON" | jq -r '.headBranchName')
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+
+      - name: Check out release branch
+        if: steps.release.outputs.prs_created == 'true'
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.release_branch.outputs.branch }}
+          token: ${{ secrets.ROLLSROYCEBOT_PAT }}
+          fetch-depth: 2
+
+      - name: Ensure branch and commit author and body are valid
+        if: steps.release.outputs.prs_created == 'true'
+        run: |
+          AUTHOR=$(git show -s --format='%an')
+          BODY=$(git show -s --format='%B')
+          BRANCH=$(git branch --show-current)
+
+          if [[ "$AUTHOR" != "RR Bot" ]]; then
+            echo "::error title=Invalid commit author::Author is $AUTHOR, expected RR Bot"
+            exit 1
+          fi
+
+          if [[ ! "$BODY" =~ chore\(autoRelease\):\ release\ v.+ ]]; then
+            echo "::error title=Invalid commit body::Commit body does not specify auto release: $BODY"
+            exit 1
+          fi
+
+          if [[ ! "$BRANCH" =~ release-please--.+ ]]; then
+            echo "::error title=Invalid branch name::Branch name does not match release-please pattern: $BRANCH"
+            exit 1
+          fi
+
+      - name: Import GPG key
+        if: steps.release.outputs.prs_created == 'true'
+        uses: crazy-max/ghaction-import-gpg@e89d40939c28e39f97cf32126055eeae86ba74ec # v6.3.0
+        with:
+          gpg_private_key: ${{ secrets.ROLLSROYCEBOT_GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.ROLLSROYCEBOT_GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
+      - name: Sign release commit
+        if: steps.release.outputs.prs_created == 'true'
+        run: |
+          git commit --amend -S --no-edit
+          git push --force

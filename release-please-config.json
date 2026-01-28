@@ -1,0 +1,23 @@
+{
+  "packages": {
+    ".": {
+      "release-type": "go",
+      "changelog-sections": [
+        { "type": "docs", "section": "Feature", "hidden": false },
+        { "type": "feat", "section": "Feature", "hidden": false },
+        { "type": "style", "section": "Feature", "hidden": false },
+        { "type": "fix", "section": "Defect", "hidden": false },
+        { "type": "revert", "section": "Defect", "hidden": false },
+        { "type": "chore", "section": "Debt", "hidden": false },
+        { "type": "refactor", "section": "Debt", "hidden": false },
+        { "type": "perf", "section": "Debt", "hidden": false },
+        { "type": "build", "section": "Debt", "hidden": false },
+        { "type": "ci", "section": "Debt", "hidden": false },
+        { "type": "test", "section": "Risk", "hidden": false }
+      ],
+      "pull-request-title-pattern": "chore(autoRelease): release v${version}",
+      "label": "releasepr",
+      "include-component-in-tag": false
+    }
+  }
+}
