@@ -1,21 +1,18 @@
-/*
-Copyright 2021 Upbound Inc.
-*/
-
 package config
 
 import (
 	// Note(turkenh): we are importing this to embed provider schema document
 	_ "embed"
 
-	ujconfig "github.com/crossplane/upjet/pkg/config"
+	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
-	"github.com/upbound/upjet-provider-template/config/null"
+	nullCluster "github.com/rropen/provider-cscdm/config/cluster/null"
+	nullNamespaced "github.com/rropen/provider-cscdm/config/namespaced/null"
 )
 
 const (
-	resourcePrefix = "template"
-	modulePath     = "github.com/upbound/upjet-provider-template"
+	resourcePrefix = "cscdm"
+	modulePath     = "github.com/rropen/provider-cscdm"
 )
 
 //go:embed schema.json
@@ -27,7 +24,7 @@ var providerMetadata string
 // GetProvider returns provider configuration
 func GetProvider() *ujconfig.Provider {
 	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
-		ujconfig.WithRootGroup("template.upbound.io"),
+		ujconfig.WithRootGroup("cscdm.crossplane.io"),
 		ujconfig.WithIncludeList(ExternalNameConfigured()),
 		ujconfig.WithFeaturesPackage("internal/features"),
 		ujconfig.WithDefaultResourceOptions(
@@ -36,7 +33,31 @@ func GetProvider() *ujconfig.Provider {
 
 	for _, configure := range []func(provider *ujconfig.Provider){
 		// add custom config functions
-		null.Configure,
+		nullCluster.Configure,
+	} {
+		configure(pc)
+	}
+
+	pc.ConfigureResources()
+	return pc
+}
+
+// GetProviderNamespaced returns the namespaced provider configuration
+func GetProviderNamespaced() *ujconfig.Provider {
+	pc := ujconfig.NewProvider([]byte(providerSchema), resourcePrefix, modulePath, []byte(providerMetadata),
+		ujconfig.WithRootGroup("cscdm.m.crossplane.io"),
+		ujconfig.WithIncludeList(ExternalNameConfigured()),
+		ujconfig.WithFeaturesPackage("internal/features"),
+		ujconfig.WithDefaultResourceOptions(
+			ExternalNameConfigurations(),
+		),
+		ujconfig.WithExampleManifestConfiguration(ujconfig.ExampleManifestConfiguration{
+			ManagedResourceNamespace: "crossplane-system",
+		}))
+
+	for _, configure := range []func(provider *ujconfig.Provider){
+		// add custom config functions
+		nullNamespaced.Configure,
 	} {
 		configure(pc)
 	}
