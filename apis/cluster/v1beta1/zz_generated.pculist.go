@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+// SPDX-FileCopyrightText: 2026 Rolls-Royce Corporation <https://www.rolls-royce.com>
 //
 // SPDX-License-Identifier: Apache-2.0
 

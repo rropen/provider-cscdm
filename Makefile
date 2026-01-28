@@ -2,7 +2,7 @@
 # Setup Project
 
 PROJECT_NAME ?= provider-cscdm
-PROJECT_REPO ?= github.com/crossplane/$(PROJECT_NAME)
+PROJECT_REPO ?= github.com/rropen/$(PROJECT_NAME)
 
 export TERRAFORM_VERSION ?= 1.5.7
 
@@ -10,14 +10,13 @@ export TERRAFORM_VERSION ?= 1.5.7
 # licensed under BSL, which is not permitted.
 TERRAFORM_VERSION_VALID := $(shell [ "$(TERRAFORM_VERSION)" = "`printf "$(TERRAFORM_VERSION)\n1.6" | sort -V | head -n1`" ] && echo 1 || echo 0)
 
-export TERRAFORM_PROVIDER_SOURCE ?= hashicorp/null
-export TERRAFORM_PROVIDER_REPO ?= https://github.com/hashicorp/terraform-provider-null
-export TERRAFORM_PROVIDER_VERSION ?= 3.2.4
-export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-null
-export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://releases.hashicorp.com/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)/$(TERRAFORM_PROVIDER_VERSION)
-export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-null_v3.2.4_x5
+export TERRAFORM_PROVIDER_SOURCE ?= rropen/cscdm
+export TERRAFORM_PROVIDER_REPO ?= https://github.com/rropen/terraform-provider-cscdm
+export TERRAFORM_PROVIDER_VERSION ?= 0.2.1
+export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-cscdm
+export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://github.com/rropen/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)/releases/download/$(TERRAFORM_PROVIDER_VERSION)
+export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-cscdm_v0.2.1
 export TERRAFORM_DOCS_PATH ?= docs/resources
-
 
 PLATFORMS ?= linux_amd64 linux_arm64
 
@@ -183,7 +182,7 @@ CROSSPLANE_NAMESPACE = crossplane-system
 # This target requires the following environment variables to be set:
 # - UPTEST_EXAMPLE_LIST, a comma-separated list of examples to test
 #   To ensure the proper functioning of the end-to-end test resource pre-deletion hook, it is crucial to arrange your resources appropriately.
-#   You can check the basic implementation here: https://github.com/crossplane/uptest/blob/main/internal/cscdms/03-delete.yaml.tmpl.
+#   You can check the basic implementation here: https://github.com/crossplane/uptest/blob/main/internal/templates/03-delete.yaml.tmpl.
 # - UPTEST_CLOUD_CREDENTIALS (optional), multiple sets of AWS IAM User credentials specified as key=value pairs.
 #   The support keys are currently `DEFAULT` and `PEER`. So, an example for the value of this env. variable is:
 #   DEFAULT='[default]

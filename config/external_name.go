@@ -7,16 +7,13 @@ import (
 // ExternalNameConfigs contains all external name configurations for this
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
-	// Import requires using a randomly generated ID from provider: nl-2e21sda
-	"null_resource": idWithStub(),
+	"cscdm_record": recordId(),
 }
 
-func idWithStub() config.ExternalName {
-	e := config.IdentifierFromProvider
-	e.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
-		en, _ := config.IDAsExternalName(tfstate)
-		return en, nil
-	}
+func recordId() config.ExternalName {
+	e := config.TemplatedStringAsIdentifier("", "{{ .parameters.zone }}:{{ .parameters.type }}:{{ .external_name }}")
+	e.SetIdentifierArgumentFn = config.NopSetIdentifierArgument
+	// e.DisableNameInitializer = true
 	return e
 }
 

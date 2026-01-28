@@ -1,0 +1,12 @@
+apiVersion: record.cscdm.m.rollsroyce-sf.com/v1alpha1
+kind: Record
+metadata:
+  name: tf-test-99-rollsroyce-sf-com
+  namespace: crossplane-system
+spec:
+  forProvider:
+    key: tf-test-99
+    ttl: 300
+    type: CNAME
+    value: devyellowk8s
+    zone: rollsroyce-sf.com

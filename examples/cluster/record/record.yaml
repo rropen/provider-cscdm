@@ -1,0 +1,11 @@
+apiVersion: record.cscdm.rollsroyce-sf.com/v1alpha1
+kind: Record
+metadata:
+  name: tf-test-99-dev-rollsroyce-sf-com
+spec:
+  forProvider:
+    key: tf-test-99.dev
+    ttl: 300
+    type: CNAME
+    value: devyellowk8s
+    zone: rollsroyce-sf.com

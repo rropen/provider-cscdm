@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 The Crossplane Authors <https://crossplane.io>
+// SPDX-FileCopyrightText: 2026 Rolls-Royce Corporation <https://www.rolls-royce.com>
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -10,9 +10,9 @@ package namespaced
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1alpha1 "github.com/crossplane/upjet-provider-template/apis/namespaced/null/v1alpha1"
-	v1alpha1namespaced "github.com/crossplane/upjet-provider-template/apis/namespaced/v1alpha1"
-	v1beta1 "github.com/crossplane/upjet-provider-template/apis/namespaced/v1beta1"
+	v1alpha1 "github.com/rropen/provider-cscdm/apis/namespaced/record/v1alpha1"
+	v1alpha1namespaced "github.com/rropen/provider-cscdm/apis/namespaced/v1alpha1"
+	v1beta1 "github.com/rropen/provider-cscdm/apis/namespaced/v1beta1"
 )
 
 func init() {
