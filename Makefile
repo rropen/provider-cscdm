@@ -14,7 +14,7 @@ export TERRAFORM_PROVIDER_SOURCE ?= rropen/cscdm
 export TERRAFORM_PROVIDER_REPO ?= https://github.com/rropen/terraform-provider-cscdm
 export TERRAFORM_PROVIDER_VERSION ?= 0.2.1
 export TERRAFORM_PROVIDER_DOWNLOAD_NAME ?= terraform-provider-cscdm
-export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://github.com/rropen/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)/releases/download/$(TERRAFORM_PROVIDER_VERSION)
+export TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX ?= https://github.com/rropen/$(TERRAFORM_PROVIDER_DOWNLOAD_NAME)/releases/download/v$(TERRAFORM_PROVIDER_VERSION)
 export TERRAFORM_NATIVE_PROVIDER_BINARY ?= terraform-provider-cscdm_v0.2.1
 export TERRAFORM_DOCS_PATH ?= docs/resources
 
